@@ -26,13 +26,17 @@ class RecipesController < ApplicationController
 
   def update
     @recipe = Recipe.find_by(id: params[:id])
-    # if params[:title_params] != ""
-    # end
     @recipe.title = params[:title_params]
     @recipe.chef = params[:chef_params]
     @recipe.ingredients = params[:ingredients_params]
     @recipe.save
     # @recipe.update(title: params[:title_params], chef: params[:chef_params], ingredients: params[:ingredients_params])
     render "update.html.erb"
+  end
+
+  def destroy
+    recipe = Recipe.find_by(id: params[:id])
+    recipe.destroy
+    render "destroy.html.erb"
   end
 end
