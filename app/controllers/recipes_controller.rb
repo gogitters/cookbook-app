@@ -5,6 +5,7 @@ class RecipesController < ApplicationController
   end
 
   def show
+    @title = "NEW RECIPE YAAAAAYS!!!!"
     @recipe = Recipe.find_by(id: params[:id])
     render "show.html.erb"
   end
@@ -14,9 +15,10 @@ class RecipesController < ApplicationController
   end
 
   def create
-    @recipe = Recipe.new(title: params[:title_param], chef: params[:chef_param], prep_time: params[:prep_time])
-    @recipe.save
-    render "create.html.erb"
+    recipe = Recipe.new(title: params[:title_param], chef: params[:chef_param], prep_time: params[:prep_time])
+    recipe.save
+    flash[:success] = "Your recipe has been created."
+    redirect_to "/recipes/#{recipe.id}"
   end
 
   def edit
@@ -25,18 +27,21 @@ class RecipesController < ApplicationController
   end
 
   def update
-    @recipe = Recipe.find_by(id: params[:id])
-    @recipe.title = params[:title_params]
-    @recipe.chef = params[:chef_params]
-    @recipe.ingredients = params[:ingredients_params]
-    @recipe.save
+    recipe = Recipe.find_by(id: params[:id])
+    recipe.title = params[:title_params]
+    recipe.chef = params[:chef_params]
+    recipe.ingredients = params[:ingredients_params]
+    recipe.save
     # @recipe.update(title: params[:title_params], chef: params[:chef_params], ingredients: params[:ingredients_params])
-    render "update.html.erb"
+    # render "show.html.erb"
+    flash[:info] = "Your recipe has been updated."
+    redirect_to "/recipes/#{recipe.id}"
   end
 
   def destroy
     recipe = Recipe.find_by(id: params[:id])
     recipe.destroy
-    render "destroy.html.erb"
+    flash[:danger] = "Your recipe has been deleted."
+    redirect_to "/"
   end
 end
