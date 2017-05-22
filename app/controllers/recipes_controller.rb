@@ -1,11 +1,14 @@
 class RecipesController < ApplicationController
   def index
-    @recipes = Recipe.all
+    if params[:sort]
+      @recipes = Recipe.order(params[:sort])
+    else
+      @recipes = Recipe.all
+    end
     render "index.html.erb"
   end
 
   def show
-    @title = "NEW RECIPE YAAAAAYS!!!!"
     @recipe = Recipe.find_by(id: params[:id])
     render "show.html.erb"
   end
