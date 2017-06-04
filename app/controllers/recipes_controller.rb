@@ -2,6 +2,9 @@ class RecipesController < ApplicationController
   def index
     if params[:sort]
       @recipes = Recipe.order(params[:sort])
+    elsif params[:category]
+      category = Category.find_by(name: params[:category])
+      @recipes = category.recipes
     else
       @recipes = Recipe.all
     end
@@ -18,7 +21,7 @@ class RecipesController < ApplicationController
   end
 
   def create
-    recipe = Recipe.new(title: params[:title_param], chef: params[:chef_param], prep_time: params[:prep_time])
+  recipe = Recipe.new(title: params[:title_param], chef: params[:chef_param], prep_time: params[:prep_time], user_id: current_user.id)
     recipe.save
     flash[:success] = "Your recipe has been created."
     redirect_to "/recipes/#{recipe.id}"

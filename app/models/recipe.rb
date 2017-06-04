@@ -1,4 +1,18 @@
 class Recipe < ApplicationRecord
+  belongs_to :user
+  has_many :categorized_recipes
+  has_many :categories, through: :categorized_recipes
+
+  # def categories
+  #   categories = []
+  #   categorized_recipes.each do |collection|
+  #     categories << collection.category
+  #   end
+  #   categories
+  # end
+
+
+  # model methods
   def ingredients_list
     list = []
     ingredients.split(", ").each do |ingredient|

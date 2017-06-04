@@ -1,3 +1,4 @@
+<%= render "shared/blank_result", array: @recipes %>
 <% @recipes.each_slice(3) do |recipe_slice| %>
   <div class="row">
     <% recipe_slice.each do |recipe| %>
